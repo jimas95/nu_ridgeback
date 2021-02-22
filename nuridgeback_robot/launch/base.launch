@@ -14,10 +14,10 @@
             pedestal:=false static:=false"/>
 
     <!-- In the ridgeback namespace this robot_state_publisher will not override sawyer's robot_state_publisher -->
-    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+    <node machine="ridgeback" name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
 
     <!-- TODO: what was this used for? -->
-    <node pkg="rosserial_python" type="message_info_service.py" name="rosserial_message_info"/>
+    <node machine="ridgeback" pkg="rosserial_python" type="message_info_service.py" name="rosserial_message_info"/>
 
     <!-- <node pkg="imu_filter_madgwick" type="imu_filter_node" name="imu_filter">
       <rosparam file="$(find nuridgeback_robot)/config/imu/mag_config.yaml" />
@@ -30,7 +30,7 @@
     </node> -->
 
     <!-- Front rocker axle joint is always published on /joint_states and is remapped here -->
-    <node pkg="ridgeback_base" type="ridgeback_node" name="ridgeback_node" output="screen">
+    <node machine="ridgeback" pkg="ridgeback_base" type="ridgeback_node" name="ridgeback_node" output="screen">
       <remap from="/joint_states" to="/ridgeback/joint_states"/>
     </node>
 
@@ -41,15 +41,15 @@
     <group ns="bluetooth_teleop">
       <rosparam command="load" file="$(find ridgeback_control)/config/teleop_ps4.yaml"/>
 
-      <node pkg="joy" type="joy_node" name="joy_node"/>
+      <node machine="ridgeback" pkg="joy" type="joy_node" name="joy_node"/>
 
-      <node pkg="teleop_twist_joy" type="teleop_node" name="teleop_twist_joy">
+      <node machine="ridgeback" pkg="teleop_twist_joy" type="teleop_node" name="teleop_twist_joy">
         <remap from="cmd_vel" to="/cmd_vel"/>
       </node>
     </group>
 
     <!-- Diagnostic Aggregator for robot monitor usage -->
-    <node pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator">
+    <node machine="ridgeback" pkg="diagnostic_aggregator" type="aggregator_node" name="diagnostic_aggregator">
       <rosparam command="load" file="$(find ridgeback_base)/config/diagnostic_analyzers.yaml"/>
     </node>
   </group>

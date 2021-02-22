@@ -13,7 +13,7 @@
     <!-- rtabmap parameters are set to use 3D lidar only
          if you want to use 2D lidar some parameters will need to be changed -->
     <group ns="rtabmap">
-      <node pkg="rtabmap_ros" type="rtabmap" name="rtabmap" output="screen" args="$(arg rtabmap_args)">
+      <node machine="ridgeback" pkg="rtabmap_ros" type="rtabmap" name="rtabmap" output="screen" args="$(arg rtabmap_args)">
         <param name="frame_id"                          value="base_link"/>
         <param name="map_frame_id"                      value="map"/>
         <param name="odom_frame_id"                     value="odom"/>
