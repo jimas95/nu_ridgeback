@@ -1,11 +1,19 @@
 <launch>
+
+
+
+  <!-- Localization-only mode -->
+  <arg name="localization"      default="true"/>
+  <arg     if="$(arg localization)" name="rtabmap_args"  default=""/>
+  <arg unless="$(arg localization)" name="rtabmap_args"  default="--delete_db_on_start"/>
+
   <group ns="ridgeback">
     <!-- TODO: convert 3D scan into image for global loop closure -->
     <!-- SLAM using velodyne local loop closures can be detected -->
     <!-- rtabmap parameters are set to use 3D lidar only
          if you want to use 2D lidar some parameters will need to be changed -->
     <group ns="rtabmap">
-      <node pkg="rtabmap_ros" type="rtabmap" name="rtabmap" output="screen" args="--delete_db_on_start">
+      <node pkg="rtabmap_ros" type="rtabmap" name="rtabmap" output="screen" args="$(arg rtabmap_args)">
         <param name="frame_id"                          value="base_link"/>
         <param name="map_frame_id"                      value="map"/>
         <param name="odom_frame_id"                     value="odom"/>
@@ -59,6 +67,13 @@
         <param name="Icp/PM"                           value="true"/>
         <param name="Icp/PMOutlierRatio"               value="0.7"/>
         <param name="Icp/CorrespondenceRatio"          value="0.4"/>
+
+
+        <!-- localization mode -->
+        <param     if="$(arg localization)" name="Mem/IncrementalMemory" type="string" value="false"/>
+        <param unless="$(arg localization)" name="Mem/IncrementalMemory" type="string" value="true"/>
+        <param name="Mem/InitWMWithAllNodes" type="string" value="$(arg localization)"/>
+
       </node>
     </group>
   </group>
