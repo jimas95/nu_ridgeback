@@ -2,7 +2,13 @@
   <group ns="ridgeback">
 
     <arg name="ridgeback_urdf" default="false" doc="set to true to load the nu_ridgeback urdf"/>
+    <arg name="robot" default="0" doc="sets machine address (if 1 then runs on ridgeback)"/>
 
+
+    <include file="$(find nuridgeback_robot)/launch/basic_remote.launch">
+      <arg name="robot" value="$(arg robot)"/>
+    </include>
+    
     <include file="$(find nuridgeback_robot)/launch/accessories.launch" />
 
     <param if="$(arg ridgeback_urdf)" name="robot_description"

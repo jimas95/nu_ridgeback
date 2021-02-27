@@ -6,12 +6,20 @@
   <arg name="localization"      default="true"/>
   <arg     if="$(arg localization)" name="rtabmap_args"  default=""/>
   <arg unless="$(arg localization)" name="rtabmap_args"  default="--delete_db_on_start"/>
+  <arg name="robot" default="0" doc="sets machine address (if 1 then runs on ridgeback)"/>
 
   <group ns="ridgeback">
     <!-- TODO: convert 3D scan into image for global loop closure -->
     <!-- SLAM using velodyne local loop closures can be detected -->
     <!-- rtabmap parameters are set to use 3D lidar only
          if you want to use 2D lidar some parameters will need to be changed -->
+    
+    <include file="$(find nuridgeback_robot)/launch/basic_remote.launch">
+      <arg name="robot" value="$(arg robot)"/>
+    </include>
+    
+    
+    
     <group ns="rtabmap">
       <node machine="ridgeback" pkg="rtabmap_ros" type="rtabmap" name="rtabmap" output="screen" args="$(arg rtabmap_args)">
         <param name="frame_id"                          value="base_link"/>
